@@ -1,67 +1,51 @@
 ﻿using System;
 
-public class TwoDimensionalArray
+public class Student
 {
-    private double[,] array;
-    private int rows;
-    private int cols;
+    public string FullName { get; set; }
+    public string Group { get; set; }
+    public double AvgGrade { get; set; }
 
-    public TwoDimensionalArray(int rows, int cols)
+    public Student(string fullName, string group, double averageGrade)
     {
-        this.rows = rows;
-        this.cols = cols;
-        array = new double[rows, cols];
+        FullName = fullName;
+        Group = group;
+        AvgGrade = averageGrade;
     }
 
-    public void FillArray()
+    public virtual double CalculateScholarship()
     {
-        Console.WriteLine("Введите элементы массива :");
-        for (int i = 0; i < rows; ++i)
+        if (AvgGrade == 5)
         {
-            for (int j = 0; j < cols; ++j)
-            {
-                array[i, j] = Convert.ToDouble(Console.ReadLine());
-            }
+            return 2000;
+        }
+        else
+        {
+            return 1900;
         }
     }
+}
 
-    public void PrintArray()
+public class Aspirant : Student
+{
+    public string ResearchWork { get; set; }
+
+    public Aspirant(string fullName, string group, double averageGrade, string researchWork)
+        : base(fullName, group, averageGrade)
     {
-        Console.WriteLine("Массив:");
-        for (int i = 0; i < rows; ++i)
-        {
-            for (int j = 0; j < cols; ++j)
-            {
-                Console.Write(array[i, j] + "\t");
-            }
-            Console.WriteLine();
-        }
+        ResearchWork = researchWork;
     }
 
-    public TwoDimensionalArray Add(TwoDimensionalArray other)
+    public override double CalculateScholarship()
     {
-        TwoDimensionalArray result = new TwoDimensionalArray(rows, cols);
-        for (int i = 0; i < rows; ++i)
+        if (AvgGrade == 5)
         {
-            for (int j = 0; j < cols; ++j)
-            {
-                result.array[i, j] = this.array[i, j] + other.array[i, j];
-            }
+            return 2500;
         }
-        return result;
-    }
-
-    public TwoDimensionalArray MultiplyByScalar(double scalar)
-    {
-        TwoDimensionalArray result = new TwoDimensionalArray(rows, cols);
-        for (int i = 0; i < rows; ++i)
+        else
         {
-            for (int j = 0; j < cols; ++j)
-            {
-                result.array[i, j] = this.array[i, j] * scalar;
-            }
+            return 2200;
         }
-        return result;
     }
 }
 
@@ -69,28 +53,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.Write("Введите количество строк: ");
-        int m = Convert.ToInt32(Console.ReadLine());
-        Console.Write("Введите количество столбцов: ");
-        int n = Convert.ToInt32(Console.ReadLine());
+        Student student = new Student("Иванов Иван Иванович", "Группа 1", 4.5);
+        Console.WriteLine($"Стипендия студента {student.FullName}: {student.CalculateScholarship()} руб.");
 
-        TwoDimensionalArray matrix1 = new TwoDimensionalArray(m, n);
-        matrix1.FillArray();
-        matrix1.PrintArray();
-
-        TwoDimensionalArray matrix2 = new TwoDimensionalArray(m, n);
-        matrix2.FillArray();
-        matrix2.PrintArray();
-
-        TwoDimensionalArray sumMatrix = matrix1.Add(matrix2);
-        Console.WriteLine("Результат сложения:");
-        sumMatrix.PrintArray();
-
-        Console.Write("Введите коэффициент для умножения: ");
-        double scalar = Convert.ToDouble(Console.ReadLine());
-        TwoDimensionalArray scaledMatrix = matrix1.MultiplyByScalar(scalar);
-        Console.WriteLine($"Результат умножения матрицы на {scalar}:");
-        scaledMatrix.PrintArray();
+        Aspirant aspirant = new Aspirant("Петров Петр Петрович", "Группа 2", 5, "Научное исследование по программированию");
+        Console.WriteLine($"Стипендия аспиранта {aspirant.FullName}: {aspirant.CalculateScholarship()} руб.");
 
         Console.ReadKey();
     }
