@@ -15,7 +15,7 @@ public class TwoDimensionalArray
 
     public void FillArray()
     {
-        Console.WriteLine("Введите элементы массива:");
+        Console.WriteLine("Введите элементы массива :");
         for (int i = 0; i < rows; ++i)
         {
             for (int j = 0; j < cols; ++j)
